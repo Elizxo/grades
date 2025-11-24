@@ -29,6 +29,8 @@
         const avgEl = document.getElementById('average');
         const API_URL = 'https://5qhoymxj33.execute-api.us-east-1.amazonaws.com/prod/grades';
 
+        let grades = [];
+
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
 
@@ -46,14 +48,20 @@
                 const data = await response.json();
 
                 if (response.ok) {
+                    // Add grade to local array
+                    grades.push({ student_id, grade });
+
+                    // Refresh table
                     table.innerHTML = '<tr><th>Student ID</th><th>Grade</th></tr>';
-                    data.items.forEach(g => {
+                    grades.forEach(g => {
                         const row = table.insertRow();
                         row.insertCell(0).textContent = g.student_id;
                         row.insertCell(1).textContent = g.grade;
                     });
 
-                    avgEl.textContent = `Average Grade: ${Number(data.average).toFixed(2)}`;
+                    // Update average
+                    const avg = data.average !== undefined ? parseFloat(data.average) : 0;
+                    avgEl.textContent = `Average Grade: ${avg.toFixed(2)}`;
                 } else {
                     alert('Error: ' + data.error);
                 }
