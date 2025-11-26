@@ -27,7 +27,7 @@
         const avgEl = document.getElementById('average');
         const API_URL = 'https://5qhoymxj33.execute-api.us-east-1.amazonaws.com/prod/grades';
 
-        // Load all grades from database when page loads
+        // Load all grades from database
         async function loadGrades() {
             try {
                 const response = await fetch(API_URL, { method: 'GET' });
@@ -69,7 +69,7 @@
                 const data = await response.json();
                 
                 if (response.ok) {
-                    // Reload all grades from database to get updated average
+                    // Reloads grades from database to get updated average
                     await loadGrades();
                     form.reset();
                 } else {
@@ -80,7 +80,7 @@
             }
         });
 
-        // Load grades when page first opens
+        // Load grades 
         loadGrades();
     </script>
 </body>
